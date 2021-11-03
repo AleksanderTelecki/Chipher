@@ -10,6 +10,22 @@ using namespace std;
 
 #include <stdio.h>
 
+long long ciagFibonacciego(int n)
+{
+    long long a = 0, b = 1, zwracanaSuma = 0;
+
+    for (int i = 0; i < n; i++)    {
+        
+        zwracanaSuma += b;
+        b += a; // b = a+b
+        a = b - a; //a staje sie b(a+b)
+       
+        
+    }
+
+    return zwracanaSuma;
+}
+
 template <class T>
 class CMatrix
 {
@@ -47,6 +63,7 @@ private:
     int M;//Modulo
 };
 
+
 template <class T>
 void CMatrix<T>::print()
 {
@@ -72,7 +89,8 @@ template<class T> CMatrix<T> &CMatrix<T>::operator+(CMatrix<T> m)
 {
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            data[i][j] += m.data[i][j];
+            data[i][j] = data[i][j] % M;
+            data[i][j] += m.data[i][j]%M;//dodawanie modulo M=10
         }
     }
     return *this;
@@ -96,10 +114,13 @@ template<class T> CMatrix<T>& CMatrix<T>::operator*(CMatrix<T> m)
 
 
 #endif 
-
+//otrzymana liczba w wyniku operacji fibonacci(Indeks ciagu S) % modulo M daja wartosc sumy wyrazow ciagu fibonacciego do przekazanego funkcji indeksu
+//C == 1, czyli ciag An ma kolejne wartosci jak ciag fibonacciego  liczba M to modulo, liczba T ile wyrazow ciagu An(ciagu fibonacciego) 
 int main()
 {
-   
+   std::cout<<ciagFibonacciego(1)%10<<"\n";
+    
+    /*
     CMatrix<long long> m(3, 3);
     m.print();
     cout << "\n";
@@ -112,6 +133,8 @@ int main()
     m = m + m1;
     m.print();
     cout << m(1,1);
+    */
+    
 
     
 }
