@@ -89,8 +89,9 @@ template<class T> CMatrix<T> &CMatrix<T>::operator+(CMatrix<T> m)
 {
     for (int i = 0; i < row; ++i) {
         for (int j = 0; j < col; ++j) {
-            data[i][j] = data[i][j] % M;
-            data[i][j] += m.data[i][j]%M;//dodawanie modulo M=10
+            //data[i][j] = data[i][j] % M;//TODO: do usuniecia
+            //data[i][j] += m.data[i][j]%M;//dodawanie modulo M=10
+            data[i][j] = (data[i][j] + m.data[i][j]) % M; //
         }
     }
     return *this;
@@ -118,7 +119,7 @@ template<class T> CMatrix<T>& CMatrix<T>::operator*(CMatrix<T> m)
 //C == 1, czyli ciag An ma kolejne wartosci jak ciag fibonacciego  liczba M to modulo, liczba T ile wyrazow ciagu An(ciagu fibonacciego) 
 int main()
 {
-   std::cout<<ciagFibonacciego(1)%10<<"\n";
+   std::cout<<ciagFibonacciego(2)%10<<"\n";
     
     /*
     CMatrix<long long> m(3, 3);
