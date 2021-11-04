@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <vector>
 using namespace std;
-
+long long c, mod;
 
 
 #ifndef CMATRIX_H
@@ -115,12 +115,57 @@ template<class T> CMatrix<T>& CMatrix<T>::operator*(CMatrix<T> m)
 
 
 #endif 
+
+
+
+void print(vector<long long> lVector) {
+   
+    cout << "\n";
+    for (int i = 0; i < lVector.size(); i++)
+    {
+        cout << lVector[i]<<"\n";
+    }
+
+}
+
 //otrzymana liczba w wyniku operacji fibonacci(Indeks ciagu S) % modulo M daja wartosc sumy wyrazow ciagu fibonacciego do przekazanego funkcji indeksu
 //C == 1, czyli ciag An ma kolejne wartosci jak ciag fibonacciego  liczba M to modulo, liczba T ile wyrazow ciagu An(ciagu fibonacciego) 
 int main()
 {
-   std::cout<<ciagFibonacciego(2)%10<<"\n";
-    
+   //std::cout<<ciagFibonacciego(2)%10<<"\n";
+
+   int t;
+
+   scanf("%ld %lld", &c, &mod);
+   scanf("%d", &t);
+
+   long long number;
+   vector<long long> answers(t);
+
+
+   for (int  i = 0; i < t; i++)
+   {
+       scanf("%lld", &number);
+
+       if (number == 1) {
+           answers[i] = 1;
+           continue;
+       }
+       if (number == 2) {
+           answers[i] = 2;
+           continue;
+       }
+
+       answers[i] = 0;
+
+       //Tutaj nasza funkcja
+   }
+
+  
+   print(answers);
+   
+
+
     /*
     CMatrix<long long> m(3, 3);
     m.print();
