@@ -13,16 +13,16 @@ long long c, mod;
 long long ciagFibonacciego(int n)
 {
     long long a = 0, b = 1, zwracanaSuma = 0;
-
-    for (int i = 0; i < n; i++)    {
-        
-        zwracanaSuma += b;
-        b += a; // b = a+b
-        a = b - a; //a staje sie b(a+b)
-       
-        
-    }
-
+     
+        for (int i = 0; i < n; i++) {            
+                zwracanaSuma += b;
+                //std::cout << "Wypisuje B: " << b << "\n";
+                b = b +  a; // b = a+b  //TODO: dodac mnozenie razy C                
+                a = b - a; //a staje sie b(a+b)
+            
+        }
+    
+    
     return zwracanaSuma;
 }
 
@@ -57,10 +57,35 @@ public:
     T& operator()(int row, int col);
     CMatrix& operator+(CMatrix m);
     CMatrix& operator*(CMatrix m);
+
+    CMatrix matPow(CMatrix x, long long k) {
+
+        vector<int>digs;
+        while (k > 0)
+        {
+            digs.push_back(k % 2);
+            k /= 2;
+        }
+        reverse(digs.begin(), digs.end());
+        CMatrix ans = x;
+
+        for (int i = 1; i < (int)digs.size(); i++)
+        {
+            ans = ans * ans;
+            if (digs[i])
+            {
+                ans = ans * x;
+            }
+        }
+        return ans;
+    };
+
 private:
     T** data;
     int row, col;
     int M;//Modulo
+
+
 };
 
 
@@ -136,16 +161,16 @@ int main()
 
    int t;
 
-   scanf("%ld %lld", &c, &mod);
-   scanf("%d", &t);
+   scanf_s("%lld %lld", &c, &mod);
+   scanf_s("%d", &t);
 
    long long number;
    vector<long long> answers(t);
 
-
+   /*
    for (int  i = 0; i < t; i++)
    {
-       scanf("%lld", &number);
+       scanf_s("%lld", &number);
 
        if (number == 1) {
            answers[i] = 1;
@@ -156,30 +181,58 @@ int main()
            continue;
        }
 
-       answers[i] = 0;
-
+       answers[i] = ciagFibonacciego(number);//% mod;
        //Tutaj nasza funkcja
+
    }
 
   
-   print(answers);
+  print(answers);*/
    
 
-
-    /*
+    
     CMatrix<long long> m(3, 3);
+    m(0, 0) = c;
+    m(0, 1) = 1;
+    m(0, 2) = 1;
+    m(1, 0) = 1;
+    m(1, 1) = 0;
+    m(1, 2) = 0;
+    m(2, 0) = 0;
+    m(2, 1) = 0;
+    m(2, 2) = 1;
     m.print();
     cout << "\n";
     CMatrix<long long> m1(3, 3);
     cout << "\n";
+    m1(0, 0) = ciagFibonacciego(2);
+    m1(0, 1) = 0;
+    m1(0, 2) = 0;
+    m1(1, 0) = ciagFibonacciego(1);
+    m1(1, 1) = 0;
+    m1(1, 2) = 0;
+    m1(2, 0) = 2 - c;
+    m1(2, 1) = 0;
+    m1(2, 2) = 0;
     m1.print();
-    //m(1, 1) = 2;
+    CMatrix<long long> mWynik(3, 3);
+  
+
     cout << "\n";
-    m(1, 1) = 2;
-    m = m + m1;
-    m.print();
-    cout << m(1,1);
-    */
+    //m(1, 1) = 2;
+    //m = m + m1;
+    
+    mWynik = m.matPow(m,8) * m1;
+    mWynik.print();
+    //TEst
+    std::cout << "\nWartosc S10 " << mWynik(0,0)%mod;
+    std::cout<<"\nWartosc S10 "<<ciagFibonacciego(10);
+
+
+
+    //m.print();
+   // cout << m(1,1);
+    
     
 
     
