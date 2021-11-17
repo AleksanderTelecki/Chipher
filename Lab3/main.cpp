@@ -1,22 +1,22 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
-//----------TODO
+
 #include<fstream>
 #include<string>
-//-----------------
+
 using namespace std;
 long long c, mod;
-//--TODO:test
+
+int t;
 int sizeOfData;
 int* numbersFromFile;
-//--------
+
 
 #ifndef CMATRIX_H
 #define CMATRIX_H
 
 #include <stdio.h>
-//----------------TODO:-
 #include <limits>
 
 fstream& startFromLine(fstream& file, unsigned int lineNum) {
@@ -26,23 +26,19 @@ fstream& startFromLine(fstream& file, unsigned int lineNum) {
     }
     return file;
 }
-//------------------------
-//--------TODO:----------
-int readFromFile() {
+
+
+bool readFromFile() {
     fstream file;
     file.open("cipher.txt", ios::in);
     if (file.good() == false) {
-        cout << "Plik nie istnieje";        
+        cout << "Plik tekstowy nie istnieje. Wprowadz dane recznie:\n";        
         return 0;
     }
 
     file >> c;
     file >> mod;
     file >> sizeOfData;
-
-    /*cout << c;
-    cout << mod;
-    cout << ileLiczb;*/
 
     numbersFromFile = new int[sizeOfData];
 
@@ -52,14 +48,13 @@ int readFromFile() {
     for (int i = 0; i < sizeOfData; i++) {
 
         getline(file, line);        
-        numbersFromFile[i] = stoi(line);
-        /*cout << wprowadzoneDane[i];*/
+        numbersFromFile[i] = stoi(line);        
     }
 
     file.close();
     return 1;
 }
-//---------------------------
+
 
 long long ciagFibonacciego(int n)
 {
@@ -141,7 +136,6 @@ ostream& operator<<(ostream& output, CMatrix<long long>& macierz) {
         }
         output << endl;
     }
-    //output << endl;
 
     return output;
 }
@@ -198,29 +192,34 @@ template<class T> CMatrix<T>& CMatrix<T>::operator*(CMatrix<T> m)
 
 #endif 
 
-void print(vector<long long> lVector) {
+void print(int tablicaAnswers[]) {
 
     cout << "\n";
-    for (int i = 0; i < lVector.size(); i++)
+    for (int i = 0; i < t; i++)
     {
-        cout << lVector[i] << "\n";
+        cout << tablicaAnswers[i] << "\n";
     }
 
 }
 
 int main()
 {
-    //TODO: if-------------------
-    readFromFile();
-    //---------------------------
-        int t;
+    
+    long long number;
+    int *tablicaAnswers;
+   
+    bool isFile = readFromFile();
 
+    if (isFile) {
+        tablicaAnswers = new int[sizeOfData];
+        t = sizeOfData;
+    }
+    else {
         scanf_s("%lld %lld", &c, &mod);
         scanf_s("%d", &t);
 
-        long long number;
-        vector<long long> answers(t);
-    
+        tablicaAnswers = new int[t];
+    }
 
    CMatrix<long long> m(3, 3);
    m(0, 0) = c;
@@ -248,26 +247,32 @@ int main()
 
    for (int  i = 0; i < t; i++)
    {
-       scanf_s("%lld", &number);
-
-       if (number == 1) {
-           answers[i] = 1;
-           continue;
+       if (isFile == true) {
+           number = numbersFromFile[i];
        }
-       if (number == 2) {
-           answers[i] = 2;
-           continue;
+       else {
+           scanf_s("%lld", &number);
        }
+       
+           if (number == 1) {
+               tablicaAnswers[i] = 1;
+               continue;
+           }
+           if (number == 2) {
+               tablicaAnswers[i] = 2;
+               continue;
+           }
+           
 
        mWynik = m.matPow(m, number - 1) * m1;
 
-       answers[i] = mWynik(1, 0);
+       tablicaAnswers[i] = mWynik(1, 0);
    } 
    
 
-   print(answers);
+   print(tablicaAnswers);
   
-   cout << "\n"<< "Macierze:"<<"\n";
+   cout << "\n"<< "Macierze(wydrukowane ostatnie):"<<"\n";
 
    cout << m << " *\n"<< m1 << " =\n"<< mWynik;
   
