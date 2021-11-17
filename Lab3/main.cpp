@@ -1,14 +1,65 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+//----------TODO
+#include<fstream>
+#include<string>
+//-----------------
 using namespace std;
 long long c, mod;
-
+//--TODO:test
+int sizeOfData;
+int* numbersFromFile;
+//--------
 
 #ifndef CMATRIX_H
 #define CMATRIX_H
 
 #include <stdio.h>
+//----------------TODO:-
+#include <limits>
+
+fstream& startFromLine(fstream& file, unsigned int lineNum) {
+    file.seekg(std::ios::beg);
+    for (int i = 0; i < lineNum - 1; ++i) {  
+        file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    return file;
+}
+//------------------------
+//--------TODO:----------
+int readFromFile() {
+    fstream file;
+    file.open("cipher.txt", ios::in);
+    if (file.good() == false) {
+        cout << "Plik nie istnieje";        
+        return 0;
+    }
+
+    file >> c;
+    file >> mod;
+    file >> sizeOfData;
+
+    /*cout << c;
+    cout << mod;
+    cout << ileLiczb;*/
+
+    numbersFromFile = new int[sizeOfData];
+
+    string line;
+
+    startFromLine(file, 3);
+    for (int i = 0; i < sizeOfData; i++) {
+
+        getline(file, line);        
+        numbersFromFile[i] = stoi(line);
+        /*cout << wprowadzoneDane[i];*/
+    }
+
+    file.close();
+    return 1;
+}
+//---------------------------
 
 long long ciagFibonacciego(int n)
 {
@@ -159,13 +210,17 @@ void print(vector<long long> lVector) {
 
 int main()
 {
-   int t;
+    //TODO: if-------------------
+    readFromFile();
+    //---------------------------
+        int t;
 
-   scanf_s("%lld %lld", &c, &mod);
-   scanf_s("%d", &t);
+        scanf_s("%lld %lld", &c, &mod);
+        scanf_s("%d", &t);
 
-   long long number;
-   vector<long long> answers(t);
+        long long number;
+        vector<long long> answers(t);
+    
 
    CMatrix<long long> m(3, 3);
    m(0, 0) = c;
